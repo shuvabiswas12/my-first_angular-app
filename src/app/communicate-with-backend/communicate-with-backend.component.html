@@ -1,0 +1,26 @@
+<p>communicate-with-backend works!</p>
+<div class="container">
+  <input
+    autofocus
+    type="text"
+    class="form-control"
+    placeholder="Enter something what you want...!"
+    (keyup.enter)="savePost(title)"
+    #title
+  />
+  <div *ngIf="!adding" class="lead text-danger">could not add!</div>
+  <br />
+  <ul class="list-group col-8" *ngFor="let post of posts">
+    <li class="list-group-item">
+      <button class="btn btn-success btn-sm" (click)="updatePost(post)">
+        Update
+      </button>
+      &nbsp;
+      <button class="btn btn-danger btn-sm" (click)="deletePost(post)">
+        Delete
+      </button>
+      &nbsp;
+      {{ post.title }}
+    </li>
+  </ul>
+</div>
