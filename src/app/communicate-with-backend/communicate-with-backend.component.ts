@@ -1,5 +1,13 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Observer } from 'rxjs';
+import {
+  Observer,
+  Observable,
+  combineLatest,
+  map,
+  switchMap,
+  retry,
+} from 'rxjs';
 import { PostService } from '../services/post.service';
 
 @Component({
@@ -11,7 +19,10 @@ export class CommunicateWithBackendComponent implements OnInit {
   posts;
   adding: boolean = true;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private route: ActivatedRoute
+  ) {}
 
   // (response) => {
   //       this.posts = response;
@@ -26,6 +37,10 @@ export class CommunicateWithBackendComponent implements OnInit {
       error: (error) => console.log(error),
       complete: () => console.log('Done'),
     });
+  }
+
+  getPosts_V2() {
+    return this.postService.getAll();
   }
 
   savePost(title: HTMLInputElement) {
@@ -60,6 +75,15 @@ export class CommunicateWithBackendComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPosts();
+    // this example shows how we can combine multiple subscription in one subscription
+    combineLatest([this.route.queryParams])
+      .pipe(
+        switchMap((combined) => {
+          return this.getPosts_V2();
+        })
+      )
+      .subscribe({
+        next: (response) => (this.posts = response),
+      });
   }
 }

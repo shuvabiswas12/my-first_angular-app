@@ -1,3 +1,5 @@
+import { RouterModule } from '@angular/router';
+import { GithubFollowersService } from './services/github-followers.service';
 import { ResuableComponent } from './reusable.component';
 import { TitleCasePipe } from './course/custom-pipes/title-case.pipe';
 import { SummaryPipe } from './course/custom-pipes/summary.pipe';
@@ -20,6 +22,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommunicateWithBackendComponent } from './communicate-with-backend/communicate-with-backend.component';
 import { PostService } from './services/post.service';
 import { GlobalErrorHandler } from './common-error/global-error-handler';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { GithubFollowersComponent } from './github-followers/github-followers.component';
+import { GithubProfileComponent } from './github-profile/github-profile.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +43,11 @@ import { GlobalErrorHandler } from './common-error/global-error-handler';
     FormArrayComponent,
     FormBuilderComponent,
     CommunicateWithBackendComponent,
+    NotFoundComponent,
+    GithubFollowersComponent,
+    GithubProfileComponent,
+    NavbarComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,10 +55,21 @@ import { GlobalErrorHandler } from './common-error/global-error-handler';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterModule.forRoot([
+      { path: '', component: HomeComponent },
+      { path: 'posts', component: CommunicateWithBackendComponent },
+      { path: 'followers', component: GithubFollowersComponent },
+      {
+        path: 'followers/:userid/:username',
+        component: GithubProfileComponent,
+      },
+      { path: '**', component: NotFoundComponent },
+    ]),
   ],
   providers: [
     CourseServices,
     PostService,
+    GithubFollowersService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
   ],
   bootstrap: [AppComponent],

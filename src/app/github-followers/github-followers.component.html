@@ -1,0 +1,24 @@
+<div *ngFor="let follower of followers" class="container">
+  <div class="bg-light my-2 row py-2 border rounded">
+    <div class="col-2">
+      <a href="#">
+        <img
+          class="avatar media-object"
+          src="{{ follower.avatar_url }}"
+          alt="..."
+        />
+      </a>
+    </div>
+    <div class="col-3">
+      <h4 class="media-heading">
+        <!-- <a [routerLink]="[follower.id]">{{ follower.login }}</a> -->
+        <a
+          [routerLink]="['/followers', follower.id, follower.login]"
+          [queryParams]="{ sort: 'newest', active: 'true' }"
+          >{{ follower.login }}</a
+        >
+      </h4>
+      <a href="follower.html_url">{{ follower.html_url }}</a>
+    </div>
+  </div>
+</div>
