@@ -2,7 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { ErrorHandler } from '../common-error/error-handler';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +32,16 @@ export class DataService {
     //
     // now if we want to catch and handle th error then the following code will comes to point
 
-    return this.http.get(this.url).pipe(catchError(ErrorHandler.handleError));
+    // return this.http.get(this.url).pipe(catchError(ErrorHandler.handleError));
+
+    // if you want to pass header then do this...
+    let headers = new HttpHeaders();
+    let token = localStorage.getItem('token');
+    headers.append('Authorization', 'Bearer ' + token);
+
+    return this.http
+      .get(this.url, { headers: headers })
+      .pipe(catchError(ErrorHandler.handleError));
   }
 
   update(id: number | string) {

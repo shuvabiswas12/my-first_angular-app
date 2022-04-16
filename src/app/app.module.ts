@@ -1,3 +1,5 @@
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
+import { AuthGuardService } from './services/auth-guard.service';
 import { RouterModule } from '@angular/router';
 import { GithubFollowersService } from './services/github-followers.service';
 import { ResuableComponent } from './reusable.component';
@@ -30,7 +32,8 @@ import { HomeComponent } from './home/home.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
-import { JwtModule } from '@auth0/angular-jwt';
+import { JwtModule, JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -71,16 +74,25 @@ import { JwtModule } from '@auth0/angular-jwt';
         path: 'followers/:userid/:username',
         component: GithubProfileComponent,
       },
-      { path: 'admin', component: AdminComponent },
+      {
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService],
+      },
       { path: 'login', component: LoginComponent },
       { path: 'no-access', component: NoAccessComponent },
       { path: '**', component: NotFoundComponent },
     ]),
   ],
   providers: [
+    AuthService,
     CourseServices,
     PostService,
+    AuthGuardService,
     GithubFollowersService,
+    AdminAuthGuardService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
   ],
   bootstrap: [AppComponent],

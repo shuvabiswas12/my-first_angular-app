@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
@@ -9,14 +9,21 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   invalidLogin: boolean = false;
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {}
 
   signIn(credentials) {
-    this.authService.login(credentials).subscribe((result) => {
-      if (result) this.router.navigate(['/']);
-      else this.invalidLogin = true;
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        this.router.navigate([returnUrl || '/']);
+      },
+      error: (error) => console.log(error),
     });
   }
 }
