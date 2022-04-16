@@ -3,6 +3,23 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a
+          class="nav-link h4"
+          routerLinkActive="active bg-light"
+          routerLink="/admin"
+          >Admin</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link h4"
+          routerLinkActive="active bg-light"
+          routerLink="/login"
+          >Login</a
+        >
+      </li>
+
+      <li class="nav-item">
+        <a
           routerLink="/followers"
           routerLinkActive="active bg-light"
           class="nav-link h4"
@@ -16,6 +33,15 @@
           routerLink="/posts"
           >Posts</a
         >
+      </li>
+
+      <li class="nav-item">
+        <button
+          class="btn btn-lg text-muted"
+          routerLinkActive="active bg-light"
+        >
+          Logout
+        </button>
       </li>
     </ul>
   </div>

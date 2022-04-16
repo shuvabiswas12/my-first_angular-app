@@ -27,6 +27,10 @@ import { GithubFollowersComponent } from './github-followers/github-followers.co
 import { GithubProfileComponent } from './github-profile/github-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { NoAccessComponent } from './no-access/no-access.component';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,9 @@ import { HomeComponent } from './home/home.component';
     GithubProfileComponent,
     NavbarComponent,
     HomeComponent,
+    NoAccessComponent,
+    LoginComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +62,7 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    JwtModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'posts', component: CommunicateWithBackendComponent },
@@ -63,6 +71,9 @@ import { HomeComponent } from './home/home.component';
         path: 'followers/:userid/:username',
         component: GithubProfileComponent,
       },
+      { path: 'admin', component: AdminComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'no-access', component: NoAccessComponent },
       { path: '**', component: NotFoundComponent },
     ]),
   ],
